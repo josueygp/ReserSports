@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <h1>Realizar Reservación</h1>
+  <form id="reservation-form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <label for="sportzone">Zona Deportiva:</label>
+    <select name="sportzone" id="sportzone" required>
+      <option value="">Seleccione una zona deportiva</option>
+      {% for sportzone in sportzones %}
+        <option value="{{ sportzone.id }}">{{ sportzone.name }}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <label for="client">Cliente:</label>
+    <select name="client" id="client" required>
+      <option value="">Seleccione un cliente</option>
+      {% for client in clients %}
+        <option value="{{ client.id }}">{{ client.first_name }} {{ client.last_name }}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <label for="date">Fecha:</label>
+    <input type="date" name="date" id="date" required>
+    <br>
+    <label for="time">Hora:</label>
+    <select name="time" id="time" disabled required>
+      <option value="">Seleccione una hora</option>
+    </select>
+    <br>
+    <label for="duration">Duración:</label>
+    <select name="duration" id="duration" disabled required>
+      <option value="">Seleccione una duración</option>
+    </select>
+    <br>
+    <button type="submit" id="submit-button" disabled>Reservar</button>
+  </form>
+
+  <div id="available-times"></div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    const sportZoneSelect = document.getElementById('sportzone');
+    const clientSelect = document.getElementById('client');
+    const dateInput = document.getElementById('date');
+    const timeSelect = document.getElementById('time');
+    const durationSelect = document.getElementById('duration');
+    const submitButton = document.getElementById('submit-button');
+    const availableTimesDiv = document.getElementById('available-times');
+
+    function updateAvailableTimes() {
+      const sportZoneId = sportZoneSelect.value;
+      const clientId = clientSelect.value;
+      const selectedDate = dateInput.value;
+
+      if (sportZoneId && clientId && selectedDate) {
+        const formData = new FormData();
+        formData.append('sportzone', sportZoneId);
+        formData.append('client', clientId);
+        formData.append('date', selectedDate);
+
+        fetch('/reservation/available-times/', {
+          method: 'POST',
+          body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+          timeSelect.disabled = false;
+          durationSelect.disabled = false;
+          submitButton.disabled = false;
+
+          timeSelect.innerHTML = '';
+          const defaultTimeOption = document.createElement('option');
+          defaultTimeOption.value = '';
+          defaultTimeOption.text = 'Seleccione una hora';
+          timeSelect.add(defaultTimeOption);
+
+          durationSelect.innerHTML = '';
+          const defaultDurationOption = document.createElement('option');
+          defaultDurationOption.value = '';
+          defaultDurationOption.text = 'Seleccione una duración';
+          durationSelect.add(defaultDurationOption);
+
+          const durationOptions = [
+            { value: 30, text: '30 minutos' },
+            { value: 60, text: '1 hora' },
+            { value: 90, text: '1 hora y 30 minutos' },
+            { value: 120, text: '2 horas' },
+          ];
+
+          durationOptions.forEach(option => {
+            const durationOption = document.createElement('option');
+            durationOption.value = option.value;
+            durationOption.text = option.text;
+            durationSelect.add(durationOption);
+          });
+
+          availableTimesDiv.innerHTML = '';
+          if (data.available_times.length === 0) {
+            const noTimesMessage = document.createElement('p');
+            noTimesMessage.textContent = 'No hay horas disponibles para la fecha seleccionada.';
+            availableTimesDiv.appendChild(noTimesMessage);
+          } else {
+            const timesList = document.createElement('ul');
+            data.available_times.forEach(time => {
+              const option = document.createElement('option');
+              option.value = time;
+              option.text = time;
+              timeSelect.add(option);
+
+              const timeItem = document.createElement('li');
+              timeItem.textContent = time;
+              timesList.appendChild(timeItem);
+            });
+            availableTimesDiv.appendChild(timesList);
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener las horas disponibles:', error);
+        });
+      } else {
+        timeSelect.disabled = true;
+        durationSelect.disabled = true;
+        submitButton.disabled = true;
+        timeSelect.innerHTML = '<option value="">Seleccione una hora</option>';
+        durationSelect.innerHTML = '<option value="">Seleccione una duración</option>';
+        availableTimesDiv.innerHTML = '';
+      }
+    }
+
+    sportZoneSelect.addEventListener('change', updateAvailableTimes);
+    clientSelect.addEventListener('change', updateAvailableTimes);
+    dateInput.addEventListener('change', updateAvailableTimes);
+  </script>
+{% endblock %}

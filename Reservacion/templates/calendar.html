@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Calendario de Reservaciones</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Zona Deportiva</th>
+        {% for hour in hours %}
+          <th>{{ hour }}:00</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for zone in sport_zones %}
+        <tr>
+          <td>{{ zone.name }}</td>
+          {% for hour in hours %}
+            <td>
+              {% if reservations_by_zone_and_hour and zone in reservations_by_zone_and_hour and hour in reservations_by_zone_and_hour|get_item:zone %}
+                {% for reservation in reservations_by_zone_and_hour|get_item:zone|get_item:hour %}
+                  {{ reservation.id_clients.name }} <br>
+                {% endfor %}
+              {% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

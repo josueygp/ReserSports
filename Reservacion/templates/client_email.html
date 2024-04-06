@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de alta como cliente</title>
+</head>
+<body>
+    <p>Hola {{ client_data.first_name }} {{ client_data.last_name }},</p>
+    <p>A continuación se detallan los datos que hemos registrado para usted:</p>
+    <ul>
+        <li>Nombre: {{ client_data.first_name }} {{ client_data.last_name }}</li>
+        <li>Email: {{ client_data.email }}</li>
+        <li>Número de contacto: {{ client_data.contact_number }}</li>
+        <li>Fecha de nacimiento: {{ client_data.birth_date }}</li>
+    </ul>
+    <p>Gracias por registrarse con nosotros.</p>
+    <p>Saludos,</p>
+    <p>Tu equipo de [Ciudad Deportiva Villahermosa]</p>
+</body>
+</html>

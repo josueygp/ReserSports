@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Activación de Reservación</title>
+</head>
+<body>
+    <h2>Confirmación de Activación de Reservación</h2>
+    <p>Estimado/a {{ reservation.id_clients.first_name }} {{ reservation.id_clients.last_name }},</p>
+    
+    <p>Le informamos que su reservación ha sido activada correctamente.</p>
+    <p>A continuación, se detallan los datos de la reservación activada:</p>
+    
+    <ul>
+        <li><strong>Zona deportiva:</strong> {{ reservation.id_sportzones }}</li>
+        <li><strong>Fecha de inicio:</strong> {{ reservation.started }}</li>
+        <li><strong>Fecha de finalización:</strong> {{ reservation.finished }}</li>
+        <!-- Agrega más detalles según tus necesidades -->
+    </ul>
+    
+    <p>Gracias por confiar en nosotros. Si tiene alguna pregunta o necesita más información, no dude en ponerse en contacto con nosotros.</p>
+    
+    <p>Saludos cordiales,</p>
+    <p>Tu equipo de reservaciones</p>
+</body>
+</html>

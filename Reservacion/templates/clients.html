@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert {{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+<div class="container mt-4">
+    <h1>Lista de Clientes</h1>
+
+    <!-- Formulario de búsqueda -->
+    <form action="{% url 'client_search' %}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Buscar clientes...(id o nombre)">
+            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+        </div>
+    </form>
+
+    <!-- Botón para crear clientes -->
+    <a href="{% url 'create_client' %}" class="btn btn-primary mb-3">Crear Cliente</a>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Número Celular</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Fecha de Ingreso</th>
+                <th>Acciones</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client.id_clients }}</td>
+                <td>{{ client.first_name }}</td>
+                <td>{{ client.last_name }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.contact_number }}</td>  <!-- Agregar el número celular -->
+                <td>{{ client.birth_date }}</td>
+                <td>{{ client.creation_date }}</td>
+                <td>
+                    <!-- Botón para modificar el cliente -->
+                    <a href="{% url 'clientedit' client.id_clients %}" class="btn btn-warning btn-sm" title="Modificar">Modificar</a>
+                    
+                    <!-- Botón para más detalles del cliente -->
+                    <a href="{% url 'client_detail' client.id_clients %}" class="btn btn-info btn-sm" title="Detalles">Detalles</a>
+                    
+                    <!-- Botón para exportar a PDF -->
+                    <a href="?format=pdf&client_id={{ client.id_clients }}" class="btn btn-danger btn-sm" title="Exportar a PDF">PDF</a>
+                    
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

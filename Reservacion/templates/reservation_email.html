@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Reservación</title>
+</head>
+<body>
+    <h2>Confirmación de Reservación</h2>
+    <p>Estimado/a {{ reservation_data.id_clients.first_name }} {{ reservation_data.id_clients.last_name }},</p>
+
+    <p>A continuación, se detallan los datos de su reservación:</p>
+    
+    <ul>
+        <li><strong>Zona deportiva:</strong> {{ reservation_data.id_sportzones.name }}</li>
+        <li><strong>Fecha de inicio:</strong> {{ reservation_data.started|date:"D d M Y H:i:s" }}</li>
+        <li><strong>Fecha de finalización:</strong> {{ reservation_data.finished|date:"D d M Y H:i:s" }}</li>
+    </ul>
+    
+    <p>Gracias por confiar en nosotros. Si tiene alguna pregunta, no dude en ponerse en contacto con nosotros.</p>
+    
+    <p>Saludos cordiales,</p>
+    <p>Tu equipo de reservaciones</p>
+</body>
+</html>

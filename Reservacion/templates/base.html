@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+
+    <head>
+       <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Tempus Dominus Datepicker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha384-ZgF/X0iR6e3RZ3I95vRks2Hf6z5XAExg+WkwS5T9A1L2EC/5pF9gI2pDJb93IlG8" crossorigin="anonymous">
+
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'fullcalendar/lib/main.css' %}">
+    <link rel="stylesheet" href="{% static 'mobiscroll/css/mobiscroll.jquery.min.css' %}">
+    <link rel="stylesheet" href="{% static 'mobiscroll/js/mobiscroll.jquery.min.js' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            {% if user.is_authenticated  %}
+              <li class="nav-item">
+                <a class="nav-link" href="/logout/">Logout</a>
+              </li>
+
+              {% if user.is_staff %}
+        <a href="{% url 'admin:index' %}" class="btn btn-primary">Panel de Administración</a>
+        {% endif %}
+             
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/signin/">Signin</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  
+
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Columna del menú -->
+      <nav class="col-md-2 col-lg-2 col-xl-2 sidebar">
+        <div class="d-flex flex-column align-items-start p-3">
+          <ul class="nav flex-column mb-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/catalogue/">
+                <i class="bi bi-book"></i> Catálogo
+              </a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="/reception/">
+                <i class="bi bi-person"></i> Recepción
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sportzonelist_reserved/">
+                <i class="bi bi-calendar"></i> Zonas Ocupadas
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sportzonelist/">
+                <i class="bi bi-calendar"></i> Zonas libres
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/reservation/">
+                <i class="bi bi-calendar"></i> Reservaciones
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/client/">
+                <i class="bi bi-people"></i> Clientes
+              </a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="/statistics/">
+                <i class="bi bi-graph-up"></i> Estadísticas
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+      
+      
+
+      <!-- Contenido principal -->
+      <main class="col-md-10 col-lg-10 col-xl-10">
+        <!-- Contenido específico de cada página -->
+        {% block content %}
+        {% endblock %}
+      </main>
+    </div>
+  </div>
+
+
+  <!-- Incluye los scripts de Bootstrap al final del body -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <script src="{% static 'fullcalendar/lib/main.js' %}"></script>
+  <script src="{% static 'fullcalendar/locales/es.js' %}"></script>
+  
+</body>
+</html>

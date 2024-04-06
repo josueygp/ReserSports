@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas de Reservaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Estadísticas de Reservaciones</h1>
+
+    <h2>Total de Reservaciones</h2>
+    <p>{{ total_reservations }}</p>
+
+    <h2>Reservaciones por Zona Deportiva</h2>
+    <table>
+        <tr>
+            <th>Zona Deportiva</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for reservation in reservations_per_sportzone %}
+        <tr>
+            <td>{{ reservation.id_sportzones__name }}</td>
+            <td>{{ reservation.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Reservaciones por Estado</h2>
+    <table>
+        <tr>
+            <th>Estado</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for reservation in reservations_per_status %}
+        <tr>
+            <td>{{ reservation.id_reservationstatus__name }}</td>
+            <td>{{ reservation.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Duración Promedio</h2>
+    <p>{{ duration_avg.duration__avg }}</p>
+
+    <h2>Últimas Reservaciones por Cliente</h2>
+    <table>
+        <tr>
+            <th>Cliente</th>
+            <th>Última Reservación</th>
+        </tr>
+        {% for reservation in recent_reservations_per_client %}
+        <tr>
+            <td>{{ reservation.id_clients__first_name }} {{ reservation.id_clients__last_name }}</td>
+            <td>{{ reservation.latest }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Reservaciones por Administrador</h2>
+    <table>
+        <tr>
+            <th>Administrador</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for reservation in reservations_per_admin %}
+        <tr>
+            <td>{{ reservation.id_admistrators__username }}</td>
+            <td>{{ reservation.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Reservaciones por Mes</h2>
+    <table>
+        <tr>
+            <th>Mes</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for reservation in reservations_per_month %}
+        <tr>
+            <td>{{ reservation.month|date:"F Y" }}</td>
+            <td>{{ reservation.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Reservaciones por Año</h2>
+    <table>
+        <tr>
+            <th>Año</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for reservation in reservations_per_year %}
+        <tr>
+            <td>{{ reservation.year.year }}</td>
+            <td>{{ reservation.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Zonas Deportivas más Utilizadas</h2>
+    <table>
+        <tr>
+            <th>Zona Deportiva</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for sportzone in top_sportzones %}
+        <tr>
+            <td>{{ sportzone.id_sportzones__name }}</td>
+            <td>{{ sportzone.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Reservaciones por Cliente</h2>
+    <table>
+        <tr>
+            <th>Cliente</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for client in reservations_per_client %}
+        <tr>
+            <td>{{ client.id_clients__first_name }} {{ client.id_clients__last_name }}</td>
+            <td>{{ client.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Reservaciones por Rango de Fechas</h2>
+    <table>
+        <tr>
+            <th>Rango de Fechas</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for reservation in reservations_per_date_range %}
+        <tr>
+            <td>{{ reservation.date_range }}</td>
+            <td>{{ reservation.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Reservaciones por Día de la Semana</h2>
+    <table>
+        <tr>
+            <th>Día de la Semana</th>
+            <th>Cantidad</th>
+        </tr>
+        {% for reservation in reservations_per_weekday %}
+        <tr>
+            <td>{{ reservation.weekday }}</td>
+            <td>{{ reservation.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

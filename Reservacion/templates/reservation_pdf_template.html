@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de Reservación</title>
+    <style>
+        /* Estilos CSS para el PDF */
+        @page {
+            size: 80mm 150mm; /* Establecer el tamaño de la hoja */
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+        .ticket {
+            background-color: white;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        .ticket h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 14px;
+        }
+        .details {
+            margin-top: 10px;
+        }
+        .details p {
+            margin: 5px 0;
+            font-size: 12px;
+        }
+        .details strong {
+            font-weight: bold;
+        }
+        .qr-code {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .qr-code img {
+            width: 80px;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <h1>Detalles de Reservación</h1>
+        <div class="details">
+            <p><strong>ID:</strong> {{ reservation.id_reservations }}</p>
+            <p><strong>Zona Deportiva:</strong> {{ reservation.id_sportzones }}</p>
+            <p><strong>Estado de Reservación:</strong> {{ reservation.id_reservationstatus }}</p>
+            <p><strong>Administrador:</strong> {{ reservation.id_admistrators }}</p>
+            <p><strong>Cliente:</strong> {{ reservation.id_clients }}</p>
+            <p><strong>Inicio:</strong> {{ reservation.started }}</p>
+            <p><strong>Fin:</strong> {{ reservation.finished }}</p>
+        </div>
+        <div class="qr-code">
+            <img src="data:image/png;base64,{{ qr_base64 }}" alt="QR Code">
+        </div>
+        
+    </div>
+</body>
+</html>

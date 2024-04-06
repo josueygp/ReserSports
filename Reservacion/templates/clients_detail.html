@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Detalles del Cliente</h2>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Información del Cliente</h5>
+        <p class="card-text"><strong>Nombre:</strong> {{ client.first_name }} {{ client.last_name }}</p>
+        <p class="card-text"><strong>Fecha de Nacimiento:</strong> {{ client.birth_date }}</p>
+        <p class="card-text"><strong>Numero Celular:</strong> {{ client.contact_number }}</p>
+        <p class="card-text"><strong>Email:</strong> {{ client.email }}</p>
+      </div>
+    </div>
+
+    <h2 class="mt-4">Historial de Reservaciones</h2>
+    {% if reservations %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Zona Deportiva</th>
+            <th scope="col">Estado de la Reservación</th>
+            <th scope="col">Fecha de Inicio</th>
+            <th scope="col">Fecha de Finalización</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reservation in reservations %}
+            <tr>
+              <th scope="row">{{ reservation.id_reservations }}</th>
+              <td>{{ reservation.id_sportzones.name }}</td>
+              <td>{{ reservation.id_reservationstatus.name }}</td>
+              <td>{{ reservation.started }}</td>
+              <td>{{ reservation.finished }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No hay reservaciones para este cliente.</p>
+    {% endif %}
+  </div>
+{% endblock %}

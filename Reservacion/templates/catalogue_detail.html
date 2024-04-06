@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <div class="container mt-4">
+    <h1 class="display-3">{{ catalogue.name }}</h1>
+    <img src="{{ catalogue.url_image.url }}" alt="{{ catalogue.name }} Image" class="img-fluid rounded">
+
+    <h2 class="mt-4">Detalles:</h2>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Instalacion:</strong> {{ catalogue.id_facilities.name }}</li>
+      <li class="list-group-item"><strong>Deporte:</strong> {{ catalogue.id_sports.name }}</li>
+      <li class="list-group-item"><strong>Infraestructura:</strong> {{ catalogue.id_infrastructures.name }}</li>
+      <li class="list-group-item"><strong>Centro deportivo:</strong> {{ catalogue.id_sportcenters.name }}</li>
+      <li class="list-group-item"><strong>Capacidad:</strong> {{ catalogue.capacity }}</li>
+    </ul>
+  </div>
+
+{% endblock %}

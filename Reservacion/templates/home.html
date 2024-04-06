@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            <h2 class="mb-4">Bienvenido a la Gestión de Reservaciones</h2>
+
+            {% if user.is_authenticated %}
+            
+            <p>Hola, {{ user.username }}. Bienvenido de nuevo.</p>
+
+
+            <div class="container-fluid mt-5">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2 class="mb-4">Calendario</h2>
+                        <div id="calendar" class="card" style="padding: 15px;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        // Configuración opcional del calendario
+                        initialView: 'dayGridMonth', // Mostrar inicialmente en la vista de mes
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                        },
+                        views: {
+                            dayGridMonth: { // Vista de mes
+                                titleFormat: { year: 'numeric', month: 'long' } // Formato del título del mes
+                            },
+                            timeGridWeek: { // Vista de semana
+                                titleFormat: { year: 'numeric', month: 'long', day: 'numeric' } // Formato del título de la semana
+                            },
+                            timeGridDay: { // Vista de día
+                                titleFormat: { year: 'numeric', month: 'long', day: 'numeric' } // Formato del título del día
+                            },
+                            listWeek: { // Vista de lista de la semana
+                                titleFormat: { year: 'numeric', month: 'long', day: 'numeric' } // Formato del título de la lista de la semana
+                            }
+                        },
+                        locale: 'es', // Configurar el idioma español
+                        events: JSON.parse(document.getElementById('events-data').textContent)
+                    });
+                    calendar.render();
+                });
+                </script>
+                
+                
+            
+            <div id="events-data" style="display: none;">{{ events | json_script }}</div>
+
+
+            
+
+
+            
+            
+            {% else %}
+            <p>Por favor, inicia sesión para gestionar las reservas.</p>
+            <a href="/signin/" class="btn btn-primary">Iniciar Sesión</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

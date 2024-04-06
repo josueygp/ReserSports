@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1 class="text-center mb-4">Estadísticas de Reservaciones</h1>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total de Reservaciones <i class="bi bi-file-earmark-text"></i></h5>
+          <p class="card-text">{{ total_reservations }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones por Zona Deportiva <i class="bi bi-geo-alt"></i></h5>
+          <ul class="list-group">
+            {% for reservation in reservations_per_sportzone %}
+            <li class="list-group-item">{{ reservation.id_sportzones__name }} ({{ reservation.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones por Estado <i class="bi bi-info-circle"></i></h5>
+          <ul class="list-group">
+            {% for reservation in reservations_per_status %}
+            <li class="list-group-item">{{ reservation.id_reservationstatus__name }} ({{ reservation.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Duración Promedio <i class="bi bi-clock"></i></h5>
+          <p class="card-text">{{ duration_avg.duration__avg }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Últimas Reservaciones por Cliente <i class="bi bi-person"></i></h5>
+          <ul class="list-group">
+            {% for reservation in recent_reservations_per_client %}
+            <li class="list-group-item">{{ reservation.id_clients__first_name }} {{ reservation.id_clients__last_name }} ({{ reservation.latest }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones por Administrador <i class="bi bi-person-check"></i></h5>
+          <ul class="list-group">
+            {% for reservation in reservations_per_admin %}
+            <li class="list-group-item">{{ reservation.id_admistrators__username }} ({{ reservation.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones por Mes <i class="bi bi-calendar3"></i></h5>
+          <ul class="list-group">
+            {% for reservation in reservations_per_month %}
+            <li class="list-group-item">{{ reservation.month|date:"F Y" }} ({{ reservation.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones por Año <i class="bi bi-calendar2"></i></h5>
+          <ul class="list-group">
+            {% for reservation in reservations_per_year %}
+            <li class="list-group-item">{{ reservation.year.year }} ({{ reservation.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Zonas Deportivas más Utilizadas <i class="bi bi-award"></i></h5>
+          <ul class="list-group">
+            {% for sportzone in top_sportzones %}
+            <li class="list-group-item">{{ sportzone.id_sportzones__name }} ({{ sportzone.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones por Cliente <i class="bi bi-person-lines-fill"></i></h5>
+          <ul class="list-group">
+            {% for client in reservations_per_client %}
+            <li class="list-group-item">{{ client.id_clients__first_name }} {{ client.id_clients__last_name }} ({{ client.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones por Rango de Fechas <i class="bi bi-calendar2-event"></i></h5>
+          <ul class="list-group">
+            {% for reservation in reservations_per_date_range %}
+            <li class="list-group-item">{{ reservation.date_range }} ({{ reservation.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones por Día de la Semana <i class="bi bi-calendar2-week"></i></h5>
+          <ul class="list-group">
+            {% for reservation in reservations_per_weekday %}
+            <li class="list-group-item">{{ reservation.weekday }} ({{ reservation.count }})</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

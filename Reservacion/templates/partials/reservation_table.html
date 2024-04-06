@@ -1,0 +1,29 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID Reserva</th>
+          <th>Zona Deportiva</th>
+          <th>Estado de Reserva</th>
+          <th>Administrador</th>
+          <th>Cliente</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for res in reservations %}
+          <tr>
+            <td>{{ res.id_reservations }}</td>
+            <td>{{ res.id_sportzones }}</td>
+            <td>{{ res.id_reservationstatus }}</td>
+            <td>{{ res.id_admistrators }}</td>
+            <td>{{ res.id_clients }}</td>
+            <td>{{ res.started }}</td>
+            <td>{{ res.finished }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  

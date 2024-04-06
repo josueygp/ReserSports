@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert {{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+
+  <div class="container mt-4">
+    <h1>Lista de Reservaciones</h1>
+
+    <!-- Formulario de búsqueda -->
+    
+    <form method="get" class="row g-3">
+      <div class="col-md-4">Estado de la Reservación
+          {{ filter.form.id_reservationstatus }}
+      </div>
+      <div class="col-md-4">Zonas Deportivas
+          {{ filter.form.id_sportzones }}
+      </div>
+      <div class="col-md-4">Clientes
+          {{ filter.form.id_clients }}
+      </div>
+      <div class="col-md-4">Busca por ID
+          {{ filter.form.id_reservations }}
+      </div>
+      <div class="col-md-4">Filtra por fecha
+          {{ filter.form.started }}
+      </div>
+      <div class="col-md-4">Ordenalo por:
+        {{ filter.form.order_by }}
+    </div>
+      <div class="col-md-12">
+          <button type="submit" class="btn btn-primary">Filtrar</button>
+      </div>
+
+      
+  </form>
+
+    <div class="container mt-1">
+      <a href="/reservation/create/" class="btn btn-primary mb-3">Crear Reservación</a>
+    </div>
+
+
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Zona Deportiva</th>
+          <th>Estado de Reservación</th>
+          <th>Administrador</th>
+          <th>Cliente</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th>Fecha de creacion</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reservation in filter.qs|slice:"::-1" %}
+          <tr class="reservation-row" data-status="{{ reservation.id_reservationstatus }}">
+            <td>{{ reservation.id_reservations }}</td>
+            <td>{{ reservation.id_sportzones }}</td>
+            <td>{{ reservation.id_reservationstatus }}</td>
+            <td>{{ reservation.id_admistrators }}</td>
+            <td>{{ reservation.id_clients }}</td>
+            <td>{{ reservation.started }}</td>
+            <td>{{ reservation.finished }}</td>
+            <td>{{ reservation.creation_date }}</td>
+            <td>
+              <a href="{% url 'generate_reservation_pdf' reservation_id=reservation.id_reservations %}" class="btn btn-danger btn-sm" title="Exportar a PDF">PDF</a>
+              {% if reservation.id_reservationstatus_id == 2 %}
+                <form action="{% url 'finalizar_reserva' reservation.id_reservations %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-warning btn-sm">Finalizar</button>
+                </form>
+              {% elif reservation.id_reservationstatus_id == 4 %}
+                
+                <form action="{% url 'activar_reserva' reservation.id_reservations %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success btn-sm">Iniciar</button>
+                </form>
+                <form action="{% url 'cancelar_reserva' reservation.id_reservations %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="8">No se encontraron reservaciones</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    
+  
+    
+    
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var rows = document.querySelectorAll('.reservation-row');
+    
+      rows.forEach(function(row) {
+        var statusId = row.getAttribute('data-status');
+    
+        switch (statusId) {
+          case '2':
+            row.style.backgroundColor = '#b3ffb3'; // Color para reservas activas
+            break;
+          case '3':
+            row.style.backgroundColor = '#ffcccb'; // Color para reservas finalizadas
+            break;
+          case '4':
+            row.style.backgroundColor = '#c2f0c2'; // Color para reservas reservadas
+            break;
+          case '5':
+            row.style.backgroundColor = '#ffc2b3'; // Color para reservas canceladas
+            break;
+          default:
+            // Puedes establecer un color predeterminado para otros estados si lo deseas
+            break;
+        }
+      });
+    });
+    </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var messages = document.getElementsByClassName('alert');
+      for (var i = 0; i < messages.length; i++) {
+          var message = messages[i].innerText;
+          if (message.includes("No se pudo enviar el correo de confirmación")) {
+              alert(message);
+          }
+      }
+  });
+</script>
+
+
+    
+{% endblock %}

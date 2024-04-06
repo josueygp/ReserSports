@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Lista de Reservaciones</h1>
+
+    <!-- Botón para crear una nueva reservación -->
+    <a href="/reservation/create/" class="btn btn-primary mb-3">Crear Reservación</a>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Zona Deportiva</th>
+          <th>Estado de Reservación</th>
+          <th>Administrador</th>
+          <th>Cliente</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reservation in reservation %}
+          <tr>
+            <td>{{ reservation.id_reservations }}</td>
+            <td>{{ reservation.id_sportzones }}</td>
+            <td>{{ reservation.id_reservationstatus }}</td>
+            <td>{{ reservation.id_admistrators }}</td>
+            <td>{{ reservation.id_clients }}</td>
+            <td>{{ reservation.started }}</td>
+            <td>{{ reservation.finished }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

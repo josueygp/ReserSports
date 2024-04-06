@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Cliente</title>
+    <style>
+        .container {
+            margin-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+        .card-text {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Detalles del Cliente</h2>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Información del Cliente</h5>
+                <p class="card-text"><strong>Nombre:</strong> {{ client.first_name }} {{ client.last_name }}</p>
+                <p class="card-text"><strong>Fecha de Nacimiento:</strong> {{ client.birth_date }}</p>
+                <p class="card-text"><strong>Numero Celular:</strong> {{ client.contact_number }}</p>
+                <p class="card-text"><strong>Email:</strong> {{ client.email }}</p>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Historial de Reservaciones</h2>
+        {% if reservations %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID Folio</th>
+                    <th scope="col">Zona Deportiva</th>
+                    <th scope="col">Estado de la Reservación</th>
+                    <th scope="col">Fecha de Inicio</th>
+                    <th scope="col">Fecha de Finalización</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <th scope="row">{{ reservation.id_reservations }}</th>
+                    <td>{{ reservation.id_sportzones.name }}</td>
+                    <td>{{ reservation.id_reservationstatus.name }}</td>
+                    <td>{{ reservation.started }}</td>
+                    <td>{{ reservation.finished }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay reservaciones para este cliente.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+

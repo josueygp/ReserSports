@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Catalogo - Zonas deportivas</h1>
+
+    <form method="get" class="row g-3">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="{{ filter.form.facilities.id_for_label }}" class="form-label">{{ filter.form.facilities.label }}</label>
+            {{ filter.form.facilities }}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="{{ filter.form.sports.id_for_label }}" class="form-label">{{ filter.form.sports.label }}</label>
+            {{ filter.form.sports }}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="{{ filter.form.infrastructures.id_for_label }}" class="form-label">{{ filter.form.infrastructures.label }}</label>
+            {{ filter.form.infrastructures }}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="{{ filter.form.sportcenters.id_for_label }}" class="form-label">{{ filter.form.sportcenters.label }}</label>
+            {{ filter.form.sportcenters }}
+          </div>
+        </div>
+        <div class="col-md-8">
+            <div class="mb-3">
+              <label for="{{ filter.form.name.id_for_label }}" class="form-label">{{ filter.form.name.label }}</label>
+              {{ filter.form.name }}
+            </div>
+          </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+      </form>
+    
+    
+    {% if filter %}
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+        {% for zone in filter.qs %}
+        <div class="col">
+            <div class="card">
+                <a href="{% url 'cataloguedetail' zone.id_sportzones %}" class="text-decoration-none">
+                    <img src="{{ zone.url_image.url }}" class="card-img-top" alt="{{ zone.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ zone.name }}</h5>
+                        <p class="card-text">Deporte: {{ zone.id_sports }}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No hay zonas deportivas disponibles.</p>
+    {% endif %}
+</div>
+{% endblock %}

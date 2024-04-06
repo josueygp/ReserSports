@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1>SportZones Reservadas</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Reservaciones Activas/En Curso</h2>
+      <div class="list-group">
+        {% if active_reservations %}
+          {% for reservation in active_reservations %}
+            <div class="list-group-item list-group-item-action">
+              {{ reservation.id_sportzones.name }} - Finaliza el {{ reservation.finished|date:"Y-m-d H:i:s" }} ({{ reservation.minutes_remaining }} minutos restantes)
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No hay reservaciones activas/en curso disponibles.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h2>Reservaciones Vencidas</h2>
+      <div class="list-group">
+        {% if overdue_reservations %}
+          {% for reservation in overdue_reservations %}
+            <div class="list-group-item list-group-item-action">
+              {{ reservation.id_sportzones.name }} - Finalizó el {{ reservation.finished|date:"Y-m-d H:i:s" }} (Vencida)
+              <form action="{% url 'finalizar_reserva' reservation.id_reservations %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning btn-sm">Finalizar</button>
+              </form>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No hay reservaciones vencidas disponibles.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h2>Reservaciones Hechas</h2>
+      <div class="list-group">
+        {% if completed_reservations %}
+          {% for reservation in completed_reservations %}
+            <div class="list-group-item list-group-item-action">
+              {{ reservation.id_sportzones.name }} - Comienza en {{ reservation.started|timeuntil:current_time }}
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No hay reservaciones hechas disponibles.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h2>Reservaciones sin confirmar</h2>
+      <div class="list-group">
+        {% if unconfirmed_reservations %}
+          {% for reservation in unconfirmed_reservations %}
+            <div class="list-group-item list-group-item-action">
+              {{ reservation.id_sportzones.name }} - Comienza el {{ reservation.started|date:"Y-m-d H:i:s" }} (Sin confirmar)
+              <form action="{% url 'activar_reserva' reservation.id_reservations %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-sm">Iniciar</button>
+              </form>
+              <form action="{% url 'cancelar_reserva' reservation.id_reservations %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+              </form>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No hay reservaciones sin confirmar disponibles.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

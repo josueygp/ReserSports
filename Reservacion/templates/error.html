@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Error</h2>
+        {% if error_message %}
+            <div class="alert alert-danger">
+                <p>{{ error_message }}</p>
+            </div>
+        {% endif %}
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver a la página principal</a>
+    </div>
+</body>
+</html>

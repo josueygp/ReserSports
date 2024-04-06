@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post" action="{% url 'clientedit' client.id_clients %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="{{ form.first_name.id_for_label }}">Nombre:</label>
+        {{ form.first_name }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.last_name.id_for_label }}">Apellido:</label>
+        {{ form.last_name }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.contact_number.id_for_label }}">Número Celular:</label>
+        {{ form.contact_number }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.birth_date.id_for_label }}">Fecha de Nacimiento:</label>
+        {{ form.birth_date }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+</form>
+
+<!-- Botón para eliminar registro -->
+<a href="{% url 'client_delete' client.id_clients %}" class="btn btn-danger mt-3">Eliminar Cliente</a>
+{% endblock %}
